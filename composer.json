@@ -1,0 +1,42 @@
+{
+    "name": "kenny1911/sse-server",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kenny1911",
+            "email": "o-muzyka@mail.ru"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs-fix": "./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix",
+        "cs-check": "./tools/php-cs-fixer/vendor/bin/php-cs-fixer check",
+        "phpunit": "phpunit",
+        "psalm":"./tools/psalm/vendor/bin/psalm",
+        "checks": [
+            "@cs-check",
+            "@phpunit",
+            "@psalm -- --no-cache"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Kenny1911\\SSE\\Server\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kenny1911\\Tests\\SSE\\Server\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.4"
+    }
+}
