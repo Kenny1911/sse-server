@@ -35,6 +35,7 @@
     },
     "require": {
         "php": "^8.4",
+        "ext-mbstring": "*",
         "lcobucci/jwt": "^5.6",
         "workerman/channel": "^1.2",
         "workerman/workerman": "^5.1"
