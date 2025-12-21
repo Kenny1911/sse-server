@@ -18,6 +18,7 @@ $config = new Config()
             ->in(__DIR__ . '/tests')
             ->append([
                 __FILE__,
+                __DIR__ . '/bin/sse-server',
             ]),
     )
     ->setParallelConfig(ParallelConfigFactory::detect())
