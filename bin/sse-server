@@ -7,6 +7,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Kenny1911\SSE\Server\App;
 use Kenny1911\SSE\Server\Configuration;
+use Symfony\Component\Dotenv\Dotenv;
+
+$envFile = (string) ($_SERVER['ENV_FILE'] ?? __DIR__ . '/../.env');
+
+if (file_exists($envFile)) {
+    new Dotenv()->load($envFile);
+}
 
 App::run(
     Configuration::fromEnv($_SERVER),
