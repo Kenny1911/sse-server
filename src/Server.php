@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kenny1911\SSE\Server;
 
 use Channel\Client;
+use Kenny1911\SSE\Server\JWT\JwtExtractor\JwtExtractor;
 use Kenny1911\SSE\Server\JWT\JwtParser;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
@@ -29,6 +30,7 @@ final class Server
         private readonly int $channelServerPort,
         private readonly string $channel,
         private readonly JwtParser $jwtParser,
+        private readonly JwtExtractor $jwtExtractor,
     ) {
         $this->connections = new Connections();
         $this->worker = new Worker(\sprintf('http://%s:%s', $ip, $port));
@@ -64,22 +66,23 @@ final class Server
 
     private function onMessage(TcpConnection $connection, Request $request): void
     {
+        // Routing
         if ('/' !== $request->path()) {
             $connection->send(new Response(status: 404, body: Response::PHRASES[404]));
 
             return;
         }
 
-        $authorization = $request->header('Authorization');
-
-        if (false === (\is_string($authorization) && str_starts_with($authorization, 'Bearer '))) {
+        // Extract JWT from request
+        try {
+            $jwt = $this->jwtExtractor->extract($request);
+        } catch (JWT\JwtExtractor\CouldNotExtractToken $e) {
             $connection->send(new Response(status: 401, body: Response::PHRASES[401]));
 
             return;
         }
 
-        $jwt = mb_substr($authorization, 7);
-
+        // Validate jwt
         try {
             $token = $this->jwtParser->parse($jwt);
             $userId = $this->jwtParser->extractUserId($token);
@@ -89,8 +92,10 @@ final class Server
             return;
         }
 
+        // Add connection
         $this->connections->add($userId, $connection);
 
+        // Return response
         $connection->send(new Response(200, [
             'Content-Type' => 'text/event-stream',
             'X-Accel-Buffering' => 'no',
