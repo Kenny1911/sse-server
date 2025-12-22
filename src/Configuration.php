@@ -44,7 +44,6 @@ final readonly class Configuration
             resolver: $resolver,
             name: 'SSE_IP',
             default: '0.0.0.0',
-            allowedValues: static fn(string $value) => (bool) filter_var($value, FILTER_VALIDATE_IP),
         );
         self::configureOption(
             resolver: $resolver,
@@ -118,7 +117,6 @@ final readonly class Configuration
             resolver: $resolver,
             name: 'CHANNEL_SERVER_IP',
             default: 'unix://' . __DIR__ . '/../var/run/sse-server.sock',
-            allowedValues: static fn(string $value) => str_starts_with($value, 'unix://') || (bool) filter_var($value, FILTER_VALIDATE_IP),
         );
         self::configureOption(
             resolver: $resolver,
