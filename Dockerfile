@@ -6,7 +6,9 @@ WORKDIR /var/www/html
 
 RUN apt-get update && \
     apt-get install -y zip libzip-dev && \
-    docker-php-ext-install zip
+    docker-php-ext-install zip && \
+    docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 COPY composer.json composer.json
