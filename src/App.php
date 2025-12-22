@@ -6,6 +6,7 @@ namespace Kenny1911\SSE\Server;
 
 use Kenny1911\SSE\Server\Clock\SystemClock;
 use Kenny1911\SSE\Server\JWT\JwtAlgo;
+use Kenny1911\SSE\Server\JWT\JwtExtractor\JwtExtractor;
 use Kenny1911\SSE\Server\JWT\JwtKeyType;
 use Kenny1911\SSE\Server\JWT\JwtParser;
 use Lcobucci\JWT\Signer;
@@ -36,6 +37,11 @@ final readonly class App
             jwtParser: self::createJwtParser(
                 configuration: $configuration,
                 clock: new SystemClock(),
+            ),
+            jwtExtractor: new JwtExtractor(
+                source: $configuration->jwtRequestSource,
+                name: $configuration->jwtRequestName,
+                prefix: $configuration->jwtRequestPrefix,
             ),
         );
         Worker::$logFile = $configuration->logFile;
