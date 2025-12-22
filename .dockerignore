@@ -2,5 +2,6 @@
 !/bin
 !/src
 !/var/.gitignore
+!/var/run/.gitignore
 !/composer.json
 !/composer.lock

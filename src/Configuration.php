@@ -117,7 +117,7 @@ final readonly class Configuration
         self::configureOption(
             resolver: $resolver,
             name: 'CHANNEL_SERVER_IP',
-            default: 'unix://' . __DIR__ . '/../var/sse-server.sock',
+            default: 'unix://' . __DIR__ . '/../var/run/sse-server.sock',
             allowedValues: static fn(string $value) => str_starts_with($value, 'unix://') || (bool) filter_var($value, FILTER_VALIDATE_IP),
         );
         self::configureOption(
@@ -137,14 +137,14 @@ final readonly class Configuration
         self::configureOption(
             resolver: $resolver,
             name: 'LOG_FILE',
-            default: __DIR__ . '/../var/sse-server.log',
+            default: __DIR__ . '/../var/logs/sse-server.log',
             allowedValues: static fn(string $value) => '' !== mb_trim($value),
             normalizer: static fn(Options $options, string $value) => mb_trim($value),
         );
         self::configureOption(
             resolver: $resolver,
             name: 'PID_FILE',
-            default: __DIR__ . '/../var/sse-server.pid',
+            default: __DIR__ . '/../var/run/sse-server.pid',
             allowedValues: static fn(string $value) => '' !== mb_trim($value),
             normalizer: static fn(Options $options, string $value) => mb_trim($value),
         );
