@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kenny1911\SSE\Server;
 
-use Kenny1911\SSE\Server\Configuration\JwtAlgo;
-use Kenny1911\SSE\Server\Configuration\JwtKeyType;
+use Kenny1911\SSE\Server\JWT\JwtAlgo;
+use Kenny1911\SSE\Server\JWT\JwtKeyType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Kenny1911\SSE\Server;
 
 use Kenny1911\SSE\Server\Clock\SystemClock;
-use Kenny1911\SSE\Server\Configuration\JwtAlgo;
+use Kenny1911\SSE\Server\JWT\JwtAlgo;
+use Kenny1911\SSE\Server\JWT\JwtKeyType;
 use Kenny1911\SSE\Server\JWT\JwtParser;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
@@ -45,9 +46,9 @@ final readonly class App
     private static function createJwtParser(Configuration $configuration, ClockInterface $clock): JwtParser
     {
         $key = match ($configuration->jwtKeyType) {
-            Configuration\JwtKeyType::PLAIN => Key\InMemory::plainText($configuration->jwtKey, $configuration->jwtKeyPassphrase),
-            Configuration\JwtKeyType::BASE64 => Key\InMemory::base64Encoded($configuration->jwtKey, $configuration->jwtKeyPassphrase),
-            Configuration\JwtKeyType::FILE => Key\InMemory::file($configuration->jwtKey, $configuration->jwtKeyPassphrase),
+            JwtKeyType::PLAIN => Key\InMemory::plainText($configuration->jwtKey, $configuration->jwtKeyPassphrase),
+            JwtKeyType::BASE64 => Key\InMemory::base64Encoded($configuration->jwtKey, $configuration->jwtKeyPassphrase),
+            JwtKeyType::FILE => Key\InMemory::file($configuration->jwtKey, $configuration->jwtKeyPassphrase),
         };
         $signer = match ($configuration->jwtAlgo) {
             JwtAlgo::HS256 => new Signer\Hmac\Sha256(),

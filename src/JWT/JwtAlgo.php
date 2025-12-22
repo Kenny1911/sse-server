@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kenny1911\SSE\Server\Configuration;
+namespace Kenny1911\SSE\Server\JWT;
 
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Blake2b;
