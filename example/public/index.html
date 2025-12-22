@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <h1>Notifications list for user "sse"</h1>
+        <pre id="notifications"></pre>
+
+        <script type="application/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                // JWT for user "sse", expired 2100-01-01 04:00:00
+                const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJzc2UiLCJleHAiOjQxMDI0NDQ4MDB9.Jz3NJ2TsWoF5ujKoV2bqk_g-cMy7Jo3AmuEefAmm3Fc';
+                const evtSource = new EventSource(`/sse?jwt=${jwt}`);
+                const notificationsEl = document.getElementById('notifications');
+
+                // Listen
+                evtSource.addEventListener('notification', (event) => {
+                    notificationsEl.innerText += `Notification: ${event.data || '*No data*'}\n`
+                })
+            })
+        </script>
+    </body>
+</html>

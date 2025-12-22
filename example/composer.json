@@ -1,0 +1,5 @@
+{
+    "require": {
+        "workerman/channel": "^1.2"
+    }
+}

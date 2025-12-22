@@ -1,0 +1,31 @@
+name: sse-server-example
+
+services:
+  nginx:
+    image: nginx:1.29.4-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/var/www/html:ro
+    ports:
+      - "127.0.0.1:8000:80"
+
+  php:
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    volumes:
+      - ./:/var/www/html
+
+  sse:
+    build:
+      context: ./../
+      dockerfile: Dockerfile
+    environment:
+      SSE_IP: 'sse'
+      CHANNEL_SERVER_IP: 'sse'
+      #CHANNEL_SERVER_IP: '0.0.0.0'
+      #CHANNEL_SERVER_IP: unix:///var/www/html/var/run/sse-server.sock
+      JWT_ALGO: hs256
+      JWT_KEY: 202cb962ac59075b964b07152d234b70
+      JWT_KEY_TYPE: plain
+      JWT_REQUEST_SOURCE: query
